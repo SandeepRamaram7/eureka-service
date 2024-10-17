@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'my-maven'
+        jdk 'my-jdk'
+    }
+
+    stages {
+        stage('Clone') {
+            steps {
+                git url: '', branch: 'main'
+            }
+        }
+        stage('Build') {
+            steps {
+                bat "mvn clean install -DskipTests"
+            }
+        }
+        stage('Test') {
+            steps {
+                bat "mvn test"
+            }
+        }
+        stage('Deploy') {
+            steps {
+                bat "docker build -t service-image ."
+                bat "docker run --network network1 --name registry-sr -p 8761:8761 -d service-image"
+            }
+        }
+    }
+}
