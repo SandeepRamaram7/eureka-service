@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git url: '', branch: 'main'
+                git url: 'https://github.com/SandeepRamaram7/eureka-service/tree/main/service-registry-main', branch: 'main'
             }
         }
         stage('Build') {
